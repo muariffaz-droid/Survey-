@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Survey Kepuasan Siswa</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f5f9;
+  padding: 20px;
+}
+.container {
+  max-width: 500px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h2 {
+  text-align: center;
+}
+label {
+  margin-top: 10px;
+  display: block;
+  font-weight: bold;
+}
+input, select, textarea, button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+}
+button {
+  background: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Survey Kepuasan Pembelajaran</h2>
+
+<form id="surveyForm">
+  <label>Nama</label>
+  <input type="text" id="nama" required>
+
+  <label>Kelas</label>
+  <input type="text" id="kelas" required>
+
+  <label>Jenis Kelamin</label>
+  <select id="jk" required>
+    <option value="">Pilih</option>
+    <option>Laki-laki</option>
+    <option>Perempuan</option>
+  </select>
+
+  <label>Kepuasan Pembelajaran</label>
+  <select id="kepuasan" required>
+    <option value="">Pilih</option>
+    <option>Sangat Puas</option>
+    <option>Puas</option>
+    <option>Cukup</option>
+    <option>Tidak Puas</option>
+  </select>
+
+  <label>Saran</label>
+  <textarea id="saran"></textarea>
+
+  <button type="submit">Kirim Survey</button>
+</form>
+
+<div class="success" id="msg"></div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbzOZjngLakZ-k3Z-gsxfhN_Bwag1EUsC4QqXaS2v-4Qz388s4KLTD45ajhnqn19XUib/exec";
+
+document.getElementById("surveyForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const data = {
+    nama: document.getElementById("nama").value,
+    kelas: document.getElementById("kelas").value,
+    jk: document.getElementById("jk").value,
+    kepuasan: document.getElementById("kepuasan").value,
+    saran: document.getElementById("saran").value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(() => {
+    document.getElementById("msg").innerHTML = "✅ Survey berhasil dikirim";
+    document.getElementById("surveyForm").reset();
+  })
+  .catch(err => alert("❌ Gagal mengirim data"));
+});
+</script>
+
+</body>
+</html>
